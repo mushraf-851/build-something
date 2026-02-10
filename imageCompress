@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Image Compressor - Compress 20+ Images at Once | BatchCompress</title>
+    <meta name="description" content="Compress up to 20 images simultaneously. Bulk JPG, PNG, WebP compression with batch download. Free online tool.">
+    
+    <style>
+        /* ===== CRITICAL CSS ===== */
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --white: #ffffff;
+            --radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--white);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 3px dashed #cbd5e1;
+            border-radius: var(--radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            background: var(--white);
+            margin: 2rem auto;
+            max-width: 900px;
+            transition: all 0.3s;
+        }
+
+        .upload-area.drag-over {
+            border-color: var(--primary);
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        /* Batch Controls */
+        .batch-controls {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .image-card {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .image-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            background: #e2e8f0;
+            margin-bottom: 1rem;
+        }
+
+        .image-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .stat-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Progress */
+        .batch-progress {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+            border-radius: 6px;
+        }
+
+        /* Summary */
+        .summary {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin: 2rem 0;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .summary-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 2px solid #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        .btn-accent:hover {
+            background: #d97706;
+        }
+
+        /* Utility */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-2 { margin-top: 2rem; }
+        .mb-2 { margin-bottom: 2rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <span>BatchCompress</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero -->
+        <section class="text-center mt-2">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Bulk Image Compressor</h1>
+            <p style="color: #475569; font-size: 1.125rem; max-width: 700px; margin: 0 auto 2rem;">
+                Compress up to 20 images simultaneously. Perfect for websites, portfolios, and social media.
+            </p>
+        </section>
+
+        <!-- Upload Area -->
+        <div class="upload-area" id="uploadArea">
+            <div style="font-size: 4rem; color: var(--primary); margin-bottom: 1.5rem;">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            
+            <h2 style="margin-bottom: 1rem;">Upload Multiple Images</h2>
+            <p class="mb-2">
+                <strong>Supported:</strong> JPG, PNG, WebP, GIF<br>
+                <strong>Max:</strong> 20 images, 10MB each
+            </p>
+            
+            <div class="mb-2">
+                <button class="btn btn-primary" id="uploadBtn">
+                    <i class="fas fa-plus-circle"></i>
+                    Select Images (Max 20)
+                </button>
+                <input type="file" id="fileInput" accept="image/*" multiple class="hidden">
+            </div>
+            
+            <p>or drag and drop images here</p>
+            <div id="fileCounter" class="hidden" style="margin-top: 1rem; color: var(--primary); font-weight: 600;"></div>
+        </div>
+
+        <!-- Selected Images Grid -->
+        <section id="imagesSection" class="hidden">
+            <h2 style="margin-bottom: 1rem;">Selected Images <span id="selectedCount" class="stat-badge">0</span></h2>
+            <div class="image-grid" id="imagesGrid">
+                <!-- Images will be added here -->
+            </div>
+        </section>
+
+        <!-- Batch Controls -->
+        <section class="batch-controls hidden" id="controlsSection">
+            <h2 style="margin-bottom: 1rem;">Batch Compression Settings</h2>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">Apply these settings to all selected images.</p>
+            
+            <div class="controls-grid">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        <i class="fas fa-sliders-h"></i> Quality: <span id="qualityValue">80%</span>
+                    </label>
+                    <input type="range" id="qualitySlider" min="10" max="100" value="80" style="width: 100%;">
+                    <div style="font-size: 0.875rem; color: #64748b; margin-top: 0.5rem;">
+                        Lower = smaller files, less quality
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        <i class="fas fa-expand-alt"></i> Max Width: <span id="widthValue">1200px</span>
+                    </label>
+                    <input type="range" id="widthSlider" min="400" max="2000" step="100" value="1200" style="width: 100%;">
+                    <div style="font-size: 0.875rem; color: #64748b; margin-top: 0.5rem;">
+                        Images will be resized proportionally
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        <i class="fas fa-file-export"></i> Output Format
+                    </label>
+                    <select id="formatSelect" style="width: 100%; padding: 0.75rem; border-radius: var(--radius); border: 2px solid #cbd5e1; background: white;">
+                        <option value="original">Keep Original Format</option>
+                        <option value="jpeg">JPEG (Best for photos)</option>
+                        <option value="png">PNG (Best for graphics)</option>
+                        <option value="webp">WebP (Modern format)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
+                <button class="btn btn-secondary" id="clearAllBtn">
+                    <i class="fas fa-trash"></i>
+                    Clear All Images
+                </button>
+                <button class="btn btn-accent" id="compressAllBtn">
+                    <i class="fas fa-compress-alt"></i>
+                    Compress All Images
+                </button>
+            </div>
+        </section>
+
+        <!-- Batch Progress -->
+        <section class="batch-progress hidden" id="progressSection">
+            <h2 style="margin-bottom: 1rem;">Compression Progress</h2>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span id="progressText">Processing images...</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            
+            <div style="margin-top: 1rem; display: flex; justify-content: space-between;">
+                <span id="processedCount">0</span>
+                <span id="totalCount">0</span>
+            </div>
+            
+            <div id="currentImage" style="margin-top: 1rem; font-style: italic; color: #64748b;"></div>
+        </section>
+
+        <!-- Results Summary -->
+        <section class="summary hidden" id="resultsSection">
+            <h2 style="margin-bottom: 1rem;">Compression Complete!</h2>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">All images have been compressed successfully.</p>
+            
+            <div class="summary-stats">
+                <div class="summary-card">
+                    <div class="summary-value" id="totalReduction">0%</div>
+                    <p>Total Size Reduction</p>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-value" id="totalSaved">0 MB</div>
+                    <p>Total Space Saved</p>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-value" id="totalImages">0</div>
+                    <p>Images Processed</p>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="summary-value" id="totalTime">0s</div>
+                    <p>Processing Time</p>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
+                <button class="btn btn-secondary" id="viewResultsBtn">
+                    <i class="fas fa-images"></i>
+                    View Results Grid
+                </button>
+                <button class="btn btn-primary" id="downloadAllBtn">
+                    <i class="fas fa-download"></i>
+                    Download All as ZIP
+                </button>
+            </div>
+        </section>
+
+        <!-- Results Grid -->
+        <section class="hidden" id="resultsGridSection">
+            <h2 style="margin-bottom: 1rem;">Compression Results</h2>
+            <div class="image-grid" id="resultsGrid">
+                <!-- Results will be added here -->
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section style="margin: 4rem 0;">
+            <h2 class="text-center" style="margin-bottom: 2rem;">Why Bulk Compression?</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
+                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Save Time</h3>
+                    <p>Compress 20 images in the time it takes to do 1</p>
+                </div>
+                
+                <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
+                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Consistent Quality</h3>
+                    <p>Same compression settings across all images</p>
+                </div>
+                
+                <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
+                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">
+                        <i class="fas fa-file-archive"></i>
+                    </div>
+                    <h3>Batch Download</h3>
+                    <p>Get all compressed images in one ZIP file</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadArea = document.getElementById('uploadArea');
+        const imagesSection = document.getElementById('imagesSection');
+        const controlsSection = document.getElementById('controlsSection');
+        const progressSection = document.getElementById('progressSection');
+        const resultsSection = document.getElementById('resultsSection');
+        
+        // State
+        let selectedImages = [];
+        let compressedResults = [];
+        let compressionInProgress = false;
+        const MAX_FILES = 20;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // File upload
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            
+            // Drag and drop
+            ['dragenter', 'dragover'].forEach(event => {
+                uploadArea.addEventListener(event, (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.add('drag-over');
+                });
+            });
+            
+            ['dragleave', 'drop'].forEach(event => {
+                uploadArea.addEventListener(event, (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.remove('drag-over');
+                });
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                const files = Array.from(e.dataTransfer.files)
+                    .filter(f => f.type.startsWith('image/'))
+                    .slice(0, MAX_FILES);
+                
+                if (files.length > 0) {
+                    handleFiles(files);
+                }
+            });
+            
+            fileInput.addEventListener('change', (e) => {
+                const files = Array.from(e.target.files).slice(0, MAX_FILES);
+                handleFiles(files);
+            });
+            
+            // Controls
+            document.getElementById('qualitySlider').addEventListener('input', (e) => {
+                document.getElementById('qualityValue').textContent = `${e.target.value}%`;
+            });
+            
+            document.getElementById('widthSlider').addEventListener('input', (e) => {
+                document.getElementById('widthValue').textContent = `${e.target.value}px`;
+            });
+            
+            // Buttons
+            document.getElementById('clearAllBtn').addEventListener('click', clearAllImages);
+            document.getElementById('compressAllBtn').addEventListener('click', startBatchCompression);
+            document.getElementById('viewResultsBtn').addEventListener('click', showResultsGrid);
+            document.getElementById('downloadAllBtn').addEventListener('click', downloadAllAsZip);
+            
+            // Initialize counters
+            updateFileCounter();
+        });
+
+        // Handle multiple files
+        function handleFiles(files) {
+            // Remove any existing files if we're at max
+            const availableSlots = MAX_FILES - selectedImages.length;
+            const filesToAdd = files.slice(0, availableSlots);
+            
+            if (filesToAdd.length === 0) {
+                showAlert(`Maximum ${MAX_FILES} images allowed. Remove some images first.`, 'error');
+                return;
+            }
+            
+            // Validate each file
+            const validFiles = [];
+            for (const file of filesToAdd) {
+                if (!file.type.startsWith('image/')) {
+                    showAlert(`${file.name} is not an image file. Skipped.`, 'error');
+                    continue;
+                }
+                
+                if (file.size > 10 * 1024 * 1024) {
+                    showAlert(`${file.name} exceeds 10MB limit. Skipped.`, 'error');
+                    continue;
+                }
+                
+                validFiles.push(file);
+            }
+            
+            if (validFiles.length === 0) return;
+            
+            // Add to selected images
+            validFiles.forEach(file => {
+                selectedImages.push({
+                    file: file,
+                    id: generateId(),
+                    previewUrl: URL.createObjectURL(file),
+                    originalSize: file.size,
+                    compressedBlob: null,
+                    compressedSize: 0,
+                    reduction: 0
+                });
+            });
+            
+            // Update UI
+            updateImagesGrid();
+            updateFileCounter();
+            
+            // Show controls if we have images
+            if (selectedImages.length > 0) {
+                imagesSection.classList.remove('hidden');
+                controlsSection.classList.remove('hidden');
+                resultsSection.classList.add('hidden');
+                document.getElementById('resultsGridSection').classList.add('hidden');
+            }
+            
+            showAlert(`Added ${validFiles.length} image(s). Ready to compress.`, 'success');
+        }
+
+        // Update images grid
+        function updateImagesGrid() {
+            const grid = document.getElementById('imagesGrid');
+            grid.innerHTML = '';
+            
+            selectedImages.forEach((image, index) => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.innerHTML = `
+                    <img src="${image.previewUrl}" class="image-preview" alt="${image.file.name}">
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>${truncateText(image.file.name, 20)}</strong>
+                    </div>
+                    <div class="image-stats">
+                        <span>${formatFileSize(image.originalSize)}</span>
+                        ${image.compressedBlob ? 
+                            `<span class="stat-badge">${image.reduction.toFixed(1)}% smaller</span>` : 
+                            `<span style="color: #64748b;">Ready</span>`}
+                    </div>
+                    <button onclick="removeImage(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; margin-top: 0.5rem;">
+                        <i class="fas fa-times"></i> Remove
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+            
+            document.getElementById('selectedCount').textContent = selectedImages.length;
+        }
+
+        // Start batch compression
+        async function startBatchCompression() {
+            if (selectedImages.length === 0 || compressionInProgress) return;
+            
+            compressionInProgress = true;
+            compressedResults = [];
+            
+            // Show progress
+            progressSection.classList.remove('hidden');
+            controlsSection.classList.add('hidden');
+            
+            const totalImages = selectedImages.length;
+            const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
+            const maxWidth = parseInt(document.getElementById('widthSlider').value);
+            const format = document.getElementById('formatSelect').value;
+            
+            // Update progress UI
+            document.getElementById('totalCount').textContent = totalImages;
+            
+            const startTime = Date.now();
+            let processed = 0;
+            
+            // Process each image
+            for (let i = 0; i < selectedImages.length; i++) {
+                const image = selectedImages[i];
+                
+                // Update current image info
+                document.getElementById('currentImage').textContent = `Processing: ${image.file.name}`;
+                
+                // Compress image
+                const result = await compressSingleImage(image, quality, maxWidth, format);
+                compressedResults.push(result);
+                
+                processed++;
+                
+                // Update progress
+                const progress = (processed / totalImages) * 100;
+                document.getElementById('progressBar').style.width = `${progress}%`;
+                document.getElementById('progressPercent').textContent = `${Math.round(progress)}%`;
+                document.getElementById('processedCount').textContent = processed;
+                document.getElementById('progressText').textContent = `Processing ${processed} of ${totalImages}`;
+                
+                // Update the image in selectedImages
+                selectedImages[i] = result;
+            }
+            
+            const endTime = Date.now();
+            const processingTime = ((endTime - startTime) / 1000).toFixed(1);
+            
+            // Calculate totals
+            const totalOriginalSize = compressedResults.reduce((sum, img) => sum + img.originalSize, 0);
+            const totalCompressedSize = compressedResults.reduce((sum, img) => sum + img.compressedSize, 0);
+            const totalReduction = ((totalOriginalSize - totalCompressedSize) / totalOriginalSize * 100);
+            const totalSaved = totalOriginalSize - totalCompressedSize;
+            
+            // Update summary
+            document.getElementById('totalReduction').textContent = `${totalReduction.toFixed(1)}%`;
+            document.getElementById('totalSaved').textContent = formatFileSize(totalSaved);
+            document.getElementById('totalImages').textContent = totalImages;
+            document.getElementById('totalTime').textContent = `${processingTime}s`;
+            
+            // Show results
+            progressSection.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+            compressionInProgress = false;
+            
+            showAlert(`Compression complete! Processed ${totalImages} images in ${processingTime}s.`, 'success');
+        }
+
+        // Compress single image
+        function compressSingleImage(imageData, quality, maxWidth, outputFormat) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function() {
+                    // Calculate new dimensions
+                    const originalWidth = img.width;
+                    const originalHeight = img.height;
+                    const scaleFactor = maxWidth / originalWidth;
+                    const newWidth = Math.min(maxWidth, originalWidth);
+                    const newHeight = Math.round(originalHeight * scaleFactor);
+                    
+                    // Create canvas
+                    const canvas = document.createElement('canvas');
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+                    
+                    // Determine output format
+                    let format = outputFormat;
+                    if (format === 'original') {
+                        const ext = imageData.file.name.split('.').pop().toLowerCase();
+                        format = ext === 'jpg' || ext === 'jpeg' ? 'jpeg' : ext;
+                    }
+                    
+                    // Convert to blob
+                    canvas.toBlob(function(blob) {
+                        const compressedSize = blob ? blob.size : imageData.originalSize;
+                        const reduction = blob ? 
+                            ((imageData.originalSize - compressedSize) / imageData.originalSize * 100) : 0;
+                        
+                        resolve({
+                            ...imageData,
+                            compressedBlob: blob,
+                            compressedSize: compressedSize,
+                            reduction: reduction,
+                            width: newWidth,
+                            height: newHeight,
+                            quality: Math.round(quality * 100),
+                            format: format
+                        });
+                    }, `image/${format}`, quality);
+                };
+                img.src = imageData.previewUrl;
+            });
+        }
+
+        // Show results grid
+        function showResultsGrid() {
+            const resultsGrid = document.getElementById('resultsGrid');
+            resultsGrid.innerHTML = '';
+            
+            compressedResults.forEach((image, index) => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.innerHTML = `
+                    <img src="${image.compressedBlob ? URL.createObjectURL(image.compressedBlob) : image.previewUrl}" 
+                         class="image-preview" alt="Compressed: ${image.file.name}">
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>${truncateText(image.file.name, 20)}</strong>
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                            <span style="color: #64748b;">Original:</span>
+                            <span>${formatFileSize(image.originalSize)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                            <span style="color: #64748b;">Compressed:</span>
+                            <span>${formatFileSize(image.compressedSize)}</span>
+                        </div>
+                    </div>
+                    <div class="image-stats">
+                        <span style="color: ${image.reduction > 0 ? '#10b981' : '#ef4444'}; font-weight: 600;">
+                            ${image.reduction > 0 ? '▼' : '▲'} ${Math.abs(image.reduction).toFixed(1)}%
+                        </span>
+                        <span class="stat-badge">${image.format.toUpperCase()}</span>
+                    </div>
+                    <button onclick="downloadSingle(${index})" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); cursor: pointer;">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                `;
+                resultsGrid.appendChild(card);
+            });
+            
+            document.getElementById('resultsGridSection').classList.remove('hidden');
+            resultsSection.classList.add('hidden');
+        }
+
+        // Download all as ZIP (simulated - real JSZip implementation would be more complex)
+        function downloadAllAsZip() {
+            if (compressedResults.length === 0) return;
+            
+            // For demo, download the first image
+            // In production, use JSZip library for actual ZIP creation
+            compressedResults.forEach((image, index) => {
+                setTimeout(() => downloadSingle(index), index * 100);
+            });
+            
+            showAlert(`Starting download of ${compressedResults.length} images. In production, this would be a ZIP file.`, 'info');
+        }
+
+        // Download single image
+        function downloadSingle(index) {
+            const image = compressedResults[index];
+            if (!image.compressedBlob) return;
+            
+            const filename = image.file.name.replace(/\.[^/.]+$/, "") + 
+                           '-compressed.' + image.format;
+            const url = URL.createObjectURL(image.compressedBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Remove single image
+        function removeImage(index) {
+            // Revoke object URL to prevent memory leaks
+            URL.revokeObjectURL(selectedImages[index].previewUrl);
+            
+            selectedImages.splice(index, 1);
+            updateImagesGrid();
+            updateFileCounter();
+            
+            if (selectedImages.length === 0) {
+                imagesSection.classList.add('hidden');
+                controlsSection.classList.add('hidden');
+            }
+        }
+
+        // Clear all images
+        function clearAllImages() {
+            // Revoke all object URLs
+            selectedImages.forEach(img => URL.revokeObjectURL(img.previewUrl));
+            
+            selectedImages = [];
+            compressedResults = [];
+            
+            imagesSection.classList.add('hidden');
+            controlsSection.classList.add('hidden');
+            resultsSection.classList.add('hidden');
+            document.getElementById('resultsGridSection').classList.add('hidden');
+            
+            updateFileCounter();
+            showAlert('All images cleared.', 'info');
+        }
+
+        // Helper functions
+        function updateFileCounter() {
+            const counter = document.getElementById('fileCounter');
+            if (selectedImages.length > 0) {
+                counter.textContent = `${selectedImages.length} image(s) selected`;
+                counter.classList.remove('hidden');
+            } else {
+                counter.classList.add('hidden');
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            const value = bytes / Math.pow(k, i);
+            return value.toFixed(value < 10 ? 1 : 0) + ' ' + sizes[i];
+        }
+
+        function truncateText(text, maxLength) {
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function showAlert(message, type = 'info') {
+            // Remove existing alerts
+            document.querySelectorAll('.alert-toast').forEach(alert => alert.remove());
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert-toast';
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: var(--radius);
+                background: ${type === 'error' ? '#fee2e2' : type === 'success' ? '#d1fae5' : '#dbeafe'};
+                color: ${type === 'error' ? '#991b1b' : type === 'success' ? '#065f46' : '#1e40af'};
+                border-left: 4px solid ${type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#3b82f6'};
+                z-index: 9999;
+                max-width: 400px;
+                box-shadow: var(--shadow);
+            `;
+            
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
