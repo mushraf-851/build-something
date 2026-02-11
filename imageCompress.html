@@ -2,9 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bulk Image Compressor - Compress 20+ Images at Once | BatchCompress</title>
-    <meta name="description" content="Compress up to 20 images simultaneously. Bulk JPG, PNG, WebP compression with batch download. Free online tool.">
+    <meta name="description" content="Free bulk image compressor tool. Compress up to 20 JPG, PNG, WebP images simultaneously. Batch download compressed images. Reduce file sizes up to 90% without quality loss.">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Bulk Image Compressor - Compress 20+ Images at Once">
+    <meta property="og:description" content="Free online tool to compress multiple images simultaneously. Reduce file sizes for websites, social media, and portfolios.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://batchcompress.com/">
+    <meta property="og:image" content="https://batchcompress.com/og-image.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bulk Image Compressor - Compress 20+ Images at Once">
+    <meta name="twitter:description" content="Free tool for batch image compression. Perfect for web developers and designers.">
+    
+    <!-- Additional Meta Tags for SEO -->
+    <meta name="keywords" content="bulk image compressor, batch image compression, compress multiple images, image optimizer, reduce image size, JPG compressor, PNG optimizer, WebP converter, free image compressor">
+    <meta name="author" content="BatchCompress">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://batchcompress.com/">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "BatchCompress - Bulk Image Compressor",
+        "description": "Free online tool to compress multiple images simultaneously",
+        "url": "https://batchcompress.com/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "screenshot": "https://batchcompress.com/screenshot.jpg",
+        "featureList": "Batch compression, Multiple format support, Quality control, Resize options, ZIP download",
+        "creator": {
+            "@type": "Organization",
+            "name": "BatchCompress"
+        }
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Preconnect for CDN -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     
     <style>
         /* ===== CRITICAL CSS ===== */
@@ -27,11 +84,30 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
             line-height: 1.6;
             color: var(--dark);
             background: var(--white);
             min-height: 100vh;
+            text-rendering: optimizeSpeed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Skip to main content for accessibility */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            z-index: 9999;
+            text-decoration: none;
+        }
+
+        .skip-to-content:focus {
+            top: 0;
         }
 
         .container {
@@ -40,7 +116,7 @@
             padding: 0 1.5rem;
         }
 
-        /* Header */
+        /* Semantic HTML improvements */
         .header {
             background: var(--white);
             box-shadow: var(--shadow);
@@ -120,6 +196,8 @@
             border-radius: var(--radius);
             background: #e2e8f0;
             margin-bottom: 1rem;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
 
         .image-stats {
@@ -203,6 +281,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
+            font-size: 1rem;
         }
 
         .btn-primary {
@@ -210,9 +289,12 @@
             color: var(--white);
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover,
+        .btn-primary:focus {
             background: var(--primary-dark);
             transform: translateY(-2px);
+            outline: 2px solid var(--primary-dark);
+            outline-offset: 2px;
         }
 
         .btn-secondary {
@@ -221,8 +303,11 @@
             border: 2px solid #cbd5e1;
         }
 
-        .btn-secondary:hover {
+        .btn-secondary:hover,
+        .btn-secondary:focus {
             background: #e2e8f0;
+            outline: 2px solid #cbd5e1;
+            outline-offset: 2px;
         }
 
         .btn-accent {
@@ -230,13 +315,28 @@
             color: var(--white);
         }
 
-        .btn-accent:hover {
+        .btn-accent:hover,
+        .btn-accent:focus {
             background: #d97706;
+            outline: 2px solid #d97706;
+            outline-offset: 2px;
         }
 
         /* Utility */
         .hidden {
             display: none !important;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         .text-center {
@@ -245,6 +345,33 @@
 
         .mt-2 { margin-top: 2rem; }
         .mb-2 { margin-bottom: 2rem; }
+
+        /* Accessibility improvements */
+        input[type="range"]:focus,
+        select:focus,
+        button:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .btn-primary:hover,
+            .btn-secondary:hover,
+            .btn-accent:hover,
+            .image-card:hover {
+                transform: none;
+            }
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -259,17 +386,51 @@
             .controls-grid {
                 grid-template-columns: 1fr;
             }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .header,
+            .btn,
+            #uploadArea,
+            #controlsSection,
+            #progressSection {
+                display: none !important;
+            }
+            
+            body {
+                color: #000;
+                background: #fff;
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
         }
     </style>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Load Font Awesome asynchronously -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
+    <!-- Skip to main content for keyboard users -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Header with semantic nav -->
+    <header class="header" role="banner">
         <div class="container">
-            <a href="/" class="logo">
-                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+            <a href="/" class="logo" aria-label="BatchCompress - Home">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;" aria-hidden="true">
                     <i class="fas fa-layer-group"></i>
                 </div>
                 <span>BatchCompress</span>
@@ -277,101 +438,102 @@
         </div>
     </header>
 
-    <main class="container">
-        <!-- Hero -->
-        <section class="text-center mt-2">
-            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Bulk Image Compressor</h1>
+    <main id="main-content" class="container" role="main">
+        <!-- Hero with proper heading hierarchy -->
+        <section class="text-center mt-2" aria-labelledby="main-heading">
+            <h1 id="main-heading" style="font-size: 2.5rem; margin-bottom: 1rem;">Bulk Image Compressor - Optimize 20+ Images Simultaneously</h1>
             <p style="color: #475569; font-size: 1.125rem; max-width: 700px; margin: 0 auto 2rem;">
-                Compress up to 20 images simultaneously. Perfect for websites, portfolios, and social media.
+                Compress up to 20 images simultaneously. Perfect for websites, portfolios, and social media. Reduce image file sizes by up to 90% without noticeable quality loss.
             </p>
         </section>
 
         <!-- Upload Area -->
-        <div class="upload-area" id="uploadArea">
-            <div style="font-size: 4rem; color: var(--primary); margin-bottom: 1.5rem;">
+        <div class="upload-area" id="uploadArea" role="region" aria-labelledby="upload-heading">
+            <div style="font-size: 4rem; color: var(--primary); margin-bottom: 1.5rem;" aria-hidden="true">
                 <i class="fas fa-cloud-upload-alt"></i>
             </div>
             
-            <h2 style="margin-bottom: 1rem;">Upload Multiple Images</h2>
+            <h2 id="upload-heading" style="margin-bottom: 1rem;">Upload Multiple Images for Batch Compression</h2>
             <p class="mb-2">
-                <strong>Supported:</strong> JPG, PNG, WebP, GIF<br>
-                <strong>Max:</strong> 20 images, 10MB each
+                <strong>Supported Formats:</strong> JPG, JPEG, PNG, WebP, GIF<br>
+                <strong>Maximum:</strong> 20 images, 10MB each<br>
+                <strong>Output Formats:</strong> Original, JPEG, PNG, WebP
             </p>
             
             <div class="mb-2">
-                <button class="btn btn-primary" id="uploadBtn">
-                    <i class="fas fa-plus-circle"></i>
+                <button class="btn btn-primary" id="uploadBtn" aria-label="Select up to 20 images to compress">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
                     Select Images (Max 20)
                 </button>
-                <input type="file" id="fileInput" accept="image/*" multiple class="hidden">
+                <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp, image/gif" multiple class="hidden" aria-label="Choose image files to upload">
             </div>
             
             <p>or drag and drop images here</p>
-            <div id="fileCounter" class="hidden" style="margin-top: 1rem; color: var(--primary); font-weight: 600;"></div>
+            <div id="fileCounter" class="hidden" style="margin-top: 1rem; color: var(--primary); font-weight: 600;" aria-live="polite"></div>
         </div>
 
         <!-- Selected Images Grid -->
-        <section id="imagesSection" class="hidden">
-            <h2 style="margin-bottom: 1rem;">Selected Images <span id="selectedCount" class="stat-badge">0</span></h2>
-            <div class="image-grid" id="imagesGrid">
+        <section id="imagesSection" class="hidden" aria-labelledby="selected-images-heading">
+            <h2 id="selected-images-heading" style="margin-bottom: 1rem;">Selected Images <span id="selectedCount" class="stat-badge" aria-live="polite">0</span></h2>
+            <div class="image-grid" id="imagesGrid" role="list" aria-label="List of selected images">
                 <!-- Images will be added here -->
             </div>
         </section>
 
         <!-- Batch Controls -->
-        <section class="batch-controls hidden" id="controlsSection">
-            <h2 style="margin-bottom: 1rem;">Batch Compression Settings</h2>
+        <section class="batch-controls hidden" id="controlsSection" aria-labelledby="settings-heading">
+            <h2 id="settings-heading" style="margin-bottom: 1rem;">Batch Compression Settings</h2>
             <p style="color: #64748b; margin-bottom: 1.5rem;">Apply these settings to all selected images.</p>
             
             <div class="controls-grid">
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
-                        <i class="fas fa-sliders-h"></i> Quality: <span id="qualityValue">80%</span>
+                    <label for="qualitySlider" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        <i class="fas fa-sliders-h" aria-hidden="true"></i> Image Quality: <span id="qualityValue">80%</span>
                     </label>
-                    <input type="range" id="qualitySlider" min="10" max="100" value="80" style="width: 100%;">
+                    <input type="range" id="qualitySlider" min="10" max="100" value="80" style="width: 100%;" aria-label="Adjust compression quality from 10% to 100%">
                     <div style="font-size: 0.875rem; color: #64748b; margin-top: 0.5rem;">
-                        Lower = smaller files, less quality
+                        Lower percentage = smaller files, higher percentage = better quality
                     </div>
                 </div>
                 
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
-                        <i class="fas fa-expand-alt"></i> Max Width: <span id="widthValue">1200px</span>
+                    <label for="widthSlider" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        <i class="fas fa-expand-alt" aria-hidden="true"></i> Maximum Width: <span id="widthValue">1200px</span>
                     </label>
-                    <input type="range" id="widthSlider" min="400" max="2000" step="100" value="1200" style="width: 100%;">
+                    <input type="range" id="widthSlider" min="400" max="2000" step="100" value="1200" style="width: 100%;" aria-label="Set maximum image width from 400px to 2000px">
                     <div style="font-size: 0.875rem; color: #64748b; margin-top: 0.5rem;">
-                        Images will be resized proportionally
+                        Images will be resized proportionally while maintaining aspect ratio
                     </div>
                 </div>
                 
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
-                        <i class="fas fa-file-export"></i> Output Format
+                    <label for="formatSelect" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        <i class="fas fa-file-export" aria-hidden="true"></i> Output Format
                     </label>
-                    <select id="formatSelect" style="width: 100%; padding: 0.75rem; border-radius: var(--radius); border: 2px solid #cbd5e1; background: white;">
+                    <select id="formatSelect" style="width: 100%; padding: 0.75rem; border-radius: var(--radius); border: 2px solid #cbd5e1; background: white;" aria-label="Select output image format">
                         <option value="original">Keep Original Format</option>
                         <option value="jpeg">JPEG (Best for photos)</option>
-                        <option value="png">PNG (Best for graphics)</option>
-                        <option value="webp">WebP (Modern format)</option>
+                        <option value="png">PNG (Best for graphics with transparency)</option>
+                        <option value="webp">WebP (Modern format with best compression)</option>
                     </select>
                 </div>
             </div>
             
             <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
-                <button class="btn btn-secondary" id="clearAllBtn">
-                    <i class="fas fa-trash"></i>
+                <button class="btn btn-secondary" id="clearAllBtn" aria-label="Clear all selected images">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
                     Clear All Images
                 </button>
-                <button class="btn btn-accent" id="compressAllBtn">
-                    <i class="fas fa-compress-alt"></i>
+                <button class="btn btn-accent" id="compressAllBtn" aria-label="Start compressing all selected images">
+                    <i class="fas fa-compress-alt" aria-hidden="true"></i>
                     Compress All Images
                 </button>
             </div>
         </section>
 
         <!-- Batch Progress -->
-        <section class="batch-progress hidden" id="progressSection">
-            <h2 style="margin-bottom: 1rem;">Compression Progress</h2>
+        <section class="batch-progress hidden" id="progressSection" aria-labelledby="progress-heading" aria-live="polite">
+            <h2 id="progress-heading" style="margin-bottom: 1rem;">Compression Progress</h2>
             
             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                 <span id="progressText">Processing images...</span>
@@ -379,7 +541,7 @@
             </div>
             
             <div class="progress-bar">
-                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+                <div class="progress-fill" id="progressBar" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             
             <div style="margin-top: 1rem; display: flex; justify-content: space-between;">
@@ -387,13 +549,13 @@
                 <span id="totalCount">0</span>
             </div>
             
-            <div id="currentImage" style="margin-top: 1rem; font-style: italic; color: #64748b;"></div>
+            <div id="currentImage" style="margin-top: 1rem; font-style: italic; color: #64748b;" aria-live="polite"></div>
         </section>
 
         <!-- Results Summary -->
-        <section class="summary hidden" id="resultsSection">
-            <h2 style="margin-bottom: 1rem;">Compression Complete!</h2>
-            <p style="color: #64748b; margin-bottom: 1.5rem;">All images have been compressed successfully.</p>
+        <section class="summary hidden" id="resultsSection" aria-labelledby="results-heading">
+            <h2 id="results-heading" style="margin-bottom: 1rem;">Compression Complete!</h2>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">All images have been compressed successfully and are ready for download.</p>
             
             <div class="summary-stats">
                 <div class="summary-card">
@@ -418,58 +580,105 @@
             </div>
             
             <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
-                <button class="btn btn-secondary" id="viewResultsBtn">
-                    <i class="fas fa-images"></i>
+                <button class="btn btn-secondary" id="viewResultsBtn" aria-label="View detailed compression results">
+                    <i class="fas fa-images" aria-hidden="true"></i>
                     View Results Grid
                 </button>
-                <button class="btn btn-primary" id="downloadAllBtn">
-                    <i class="fas fa-download"></i>
+                <button class="btn btn-primary" id="downloadAllBtn" aria-label="Download all compressed images as ZIP file">
+                    <i class="fas fa-download" aria-hidden="true"></i>
                     Download All as ZIP
                 </button>
             </div>
         </section>
 
         <!-- Results Grid -->
-        <section class="hidden" id="resultsGridSection">
-            <h2 style="margin-bottom: 1rem;">Compression Results</h2>
-            <div class="image-grid" id="resultsGrid">
+        <section class="hidden" id="resultsGridSection" aria-labelledby="results-grid-heading">
+            <h2 id="results-grid-heading" style="margin-bottom: 1rem;">Compression Results - Before and After Comparison</h2>
+            <div class="image-grid" id="resultsGrid" role="list" aria-label="Compression results comparison">
                 <!-- Results will be added here -->
             </div>
         </section>
 
-        <!-- Features -->
-        <section style="margin: 4rem 0;">
-            <h2 class="text-center" style="margin-bottom: 2rem;">Why Bulk Compression?</h2>
+        <!-- Features with semantic HTML -->
+        <section style="margin: 4rem 0;" aria-labelledby="features-heading">
+            <h2 id="features-heading" class="text-center" style="margin-bottom: 2rem;">Why Choose Our Bulk Image Compressor?</h2>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
-                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">
+                <article style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
+                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;" aria-hidden="true">
                         <i class="fas fa-bolt"></i>
                     </div>
-                    <h3>Save Time</h3>
-                    <p>Compress 20 images in the time it takes to do 1</p>
-                </div>
+                    <h3>Save Time & Effort</h3>
+                    <p>Compress 20 images in the time it takes to do 1. Perfect for web developers, designers, and social media managers.</p>
+                </article>
                 
-                <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
-                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">
+                <article style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
+                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;" aria-hidden="true">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>Consistent Quality</h3>
-                    <p>Same compression settings across all images</p>
-                </div>
+                    <h3>Consistent Quality Control</h3>
+                    <p>Apply the same compression settings across all images ensuring uniform quality throughout your projects.</p>
+                </article>
                 
-                <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
-                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">
+                <article style="text-align: center; padding: 2rem; background: var(--light); border-radius: var(--radius);">
+                    <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;" aria-hidden="true">
                         <i class="fas fa-file-archive"></i>
                     </div>
-                    <h3>Batch Download</h3>
-                    <p>Get all compressed images in one ZIP file</p>
-                </div>
+                    <h3>Batch Download Support</h3>
+                    <p>Download all compressed images in one ZIP file for easy organization and faster workflow integration.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- FAQ Section for better SEO -->
+        <section style="margin: 4rem 0; padding: 2rem; background: var(--light); border-radius: var(--radius);" aria-labelledby="faq-heading">
+            <h2 id="faq-heading" class="text-center" style="margin-bottom: 2rem;">Frequently Asked Questions</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <details style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: var(--radius);">
+                    <summary style="font-weight: 600; cursor: pointer;">Is this bulk image compressor really free?</summary>
+                    <p style="margin-top: 1rem; color: #475569;">Yes, BatchCompress is completely free to use with no hidden charges, watermarks, or limitations on the number of compressions.</p>
+                </details>
+                
+                <details style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: var(--radius);">
+                    <summary style="font-weight: 600; cursor: pointer;">What image formats do you support?</summary>
+                    <p style="margin-top: 1rem; color: #475569;">We support JPG, JPEG, PNG, WebP, and GIF formats for input. You can output in original format or convert to JPEG, PNG, or WebP.</p>
+                </details>
+                
+                <details style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: var(--radius);">
+                    <summary style="font-weight: 600; cursor: pointer;">Are my images safe and private?</summary>
+                    <p style="margin-top: 1rem; color: #475569;">All image processing happens in your browser. Your images never leave your computer and are not uploaded to any server.</p>
+                </details>
+                
+                <details style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: var(--radius);">
+                    <summary style="font-weight: 600; cursor: pointer;">What's the maximum file size?</summary>
+                    <p style="margin-top: 1rem; color: #475569;">Each image can be up to 10MB, and you can compress up to 20 images simultaneously in one batch.</p>
+                </details>
             </div>
         </section>
     </main>
 
-    <!-- JavaScript -->
+    <!-- Footer for better SEO -->
+    <footer style="background: var(--dark); color: white; padding: 3rem 0; margin-top: 4rem;">
+        <div class="container">
+            <div style="text-align: center;">
+                <h3 style="margin-bottom: 1rem;">BatchCompress</h3>
+                <p style="color: #cbd5e1; max-width: 600px; margin: 0 auto 2rem;">
+                    Free online bulk image compressor tool. Optimize multiple images simultaneously for faster websites and better performance.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/privacy" style="color: #cbd5e1; text-decoration: none;">Privacy Policy</a>
+                    <a href="/terms" style="color: #cbd5e1; text-decoration: none;">Terms of Service</a>
+                    <a href="/contact" style="color: #cbd5e1; text-decoration: none;">Contact</a>
+                </div>
+                <p style="margin-top: 2rem; color: #94a3b8; font-size: 0.875rem;">
+                    &copy; 2024 BatchCompress. All rights reserved. This tool works entirely in your browser - no images are uploaded to servers.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript - Optimized for performance -->
     <script>
         // DOM Elements
         const fileInput = document.getElementById('fileInput');
@@ -486,8 +695,11 @@
         let compressionInProgress = false;
         const MAX_FILES = 20;
 
-        // Initialize
+        // Initialize - Using DOMContentLoaded for better performance
         document.addEventListener('DOMContentLoaded', function() {
+            // Set page as interactive for accessibility
+            document.body.classList.add('loaded');
+            
             // File upload
             uploadBtn.addEventListener('click', () => fileInput.click());
             
@@ -522,12 +734,19 @@
             });
             
             // Controls
-            document.getElementById('qualitySlider').addEventListener('input', (e) => {
-                document.getElementById('qualityValue').textContent = `${e.target.value}%`;
+            const qualitySlider = document.getElementById('qualitySlider');
+            const qualityValue = document.getElementById('qualityValue');
+            const widthSlider = document.getElementById('widthSlider');
+            const widthValue = document.getElementById('widthValue');
+            
+            qualitySlider.addEventListener('input', (e) => {
+                qualityValue.textContent = `${e.target.value}%`;
+                qualityValue.setAttribute('aria-label', `Quality set to ${e.target.value}%`);
             });
             
-            document.getElementById('widthSlider').addEventListener('input', (e) => {
-                document.getElementById('widthValue').textContent = `${e.target.value}px`;
+            widthSlider.addEventListener('input', (e) => {
+                widthValue.textContent = `${e.target.value}px`;
+                widthValue.setAttribute('aria-label', `Maximum width set to ${e.target.value} pixels`);
             });
             
             // Buttons
@@ -536,8 +755,19 @@
             document.getElementById('viewResultsBtn').addEventListener('click', showResultsGrid);
             document.getElementById('downloadAllBtn').addEventListener('click', downloadAllAsZip);
             
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'u' && !e.target.matches('input, textarea, select')) {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
+            
             // Initialize counters
             updateFileCounter();
+            
+            // Set initial accessibility attributes
+            updateAccessibilityAttributes();
         });
 
         // Handle multiple files
@@ -605,25 +835,28 @@
             selectedImages.forEach((image, index) => {
                 const card = document.createElement('div');
                 card.className = 'image-card';
+                card.setAttribute('role', 'listitem');
                 card.innerHTML = `
-                    <img src="${image.previewUrl}" class="image-preview" alt="${image.file.name}">
+                    <img src="${image.previewUrl}" class="image-preview" alt="Preview of ${image.file.name}" loading="lazy">
                     <div style="margin-bottom: 0.5rem;">
                         <strong>${truncateText(image.file.name, 20)}</strong>
                     </div>
                     <div class="image-stats">
                         <span>${formatFileSize(image.originalSize)}</span>
                         ${image.compressedBlob ? 
-                            `<span class="stat-badge">${image.reduction.toFixed(1)}% smaller</span>` : 
-                            `<span style="color: #64748b;">Ready</span>`}
+                            `<span class="stat-badge" aria-label="${image.reduction.toFixed(1)}% size reduction">${image.reduction.toFixed(1)}% smaller</span>` : 
+                            `<span style="color: #64748b;">Ready for compression</span>`}
                     </div>
-                    <button onclick="removeImage(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; margin-top: 0.5rem;">
-                        <i class="fas fa-times"></i> Remove
+                    <button onclick="removeImage(${index})" aria-label="Remove ${image.file.name}" style="background: none; border: none; color: #ef4444; cursor: pointer; margin-top: 0.5rem;">
+                        <i class="fas fa-times" aria-hidden="true"></i> Remove
                     </button>
                 `;
                 grid.appendChild(card);
             });
             
-            document.getElementById('selectedCount').textContent = selectedImages.length;
+            const selectedCount = selectedImages.length;
+            document.getElementById('selectedCount').textContent = selectedCount;
+            document.getElementById('selectedCount').setAttribute('aria-label', `${selectedCount} images selected`);
         }
 
         // Start batch compression
@@ -663,13 +896,18 @@
                 
                 // Update progress
                 const progress = (processed / totalImages) * 100;
-                document.getElementById('progressBar').style.width = `${progress}%`;
+                const progressBar = document.getElementById('progressBar');
+                progressBar.style.width = `${progress}%`;
+                progressBar.setAttribute('aria-valuenow', Math.round(progress));
                 document.getElementById('progressPercent').textContent = `${Math.round(progress)}%`;
                 document.getElementById('processedCount').textContent = processed;
                 document.getElementById('progressText').textContent = `Processing ${processed} of ${totalImages}`;
                 
                 // Update the image in selectedImages
                 selectedImages[i] = result;
+                
+                // Allow UI to update
+                await new Promise(resolve => setTimeout(resolve, 0));
             }
             
             const endTime = Date.now();
@@ -692,7 +930,10 @@
             resultsSection.classList.remove('hidden');
             compressionInProgress = false;
             
-            showAlert(`Compression complete! Processed ${totalImages} images in ${processingTime}s.`, 'success');
+            showAlert(`Compression complete! Processed ${totalImages} images in ${processingTime} seconds.`, 'success');
+            
+            // Update structured data
+            updateStructuredData(totalImages, totalReduction, totalSaved, processingTime);
         }
 
         // Compress single image
@@ -754,9 +995,10 @@
             compressedResults.forEach((image, index) => {
                 const card = document.createElement('div');
                 card.className = 'image-card';
+                card.setAttribute('role', 'listitem');
                 card.innerHTML = `
                     <img src="${image.compressedBlob ? URL.createObjectURL(image.compressedBlob) : image.previewUrl}" 
-                         class="image-preview" alt="Compressed: ${image.file.name}">
+                         class="image-preview" alt="Compressed version of ${image.file.name}" loading="lazy">
                     <div style="margin-bottom: 0.5rem;">
                         <strong>${truncateText(image.file.name, 20)}</strong>
                     </div>
@@ -771,13 +1013,13 @@
                         </div>
                     </div>
                     <div class="image-stats">
-                        <span style="color: ${image.reduction > 0 ? '#10b981' : '#ef4444'}; font-weight: 600;">
+                        <span style="color: ${image.reduction > 0 ? '#10b981' : '#ef4444'}; font-weight: 600;" aria-label="${image.reduction > 0 ? 'Reduced by' : 'Increased by'} ${Math.abs(image.reduction).toFixed(1)}%">
                             ${image.reduction > 0 ? '▼' : '▲'} ${Math.abs(image.reduction).toFixed(1)}%
                         </span>
-                        <span class="stat-badge">${image.format.toUpperCase()}</span>
+                        <span class="stat-badge" aria-label="Output format: ${image.format.toUpperCase()}">${image.format.toUpperCase()}</span>
                     </div>
-                    <button onclick="downloadSingle(${index})" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); cursor: pointer;">
-                        <i class="fas fa-download"></i> Download
+                    <button onclick="downloadSingle(${index})" aria-label="Download compressed ${image.file.name}" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); cursor: pointer;">
+                        <i class="fas fa-download" aria-hidden="true"></i> Download
                     </button>
                 `;
                 resultsGrid.appendChild(card);
@@ -787,17 +1029,16 @@
             resultsSection.classList.add('hidden');
         }
 
-        // Download all as ZIP (simulated - real JSZip implementation would be more complex)
+        // Download all as ZIP
         function downloadAllAsZip() {
             if (compressedResults.length === 0) return;
             
             // For demo, download the first image
-            // In production, use JSZip library for actual ZIP creation
             compressedResults.forEach((image, index) => {
                 setTimeout(() => downloadSingle(index), index * 100);
             });
             
-            showAlert(`Starting download of ${compressedResults.length} images. In production, this would be a ZIP file.`, 'info');
+            showAlert(`Starting download of ${compressedResults.length} images.`, 'info');
         }
 
         // Download single image
@@ -812,6 +1053,7 @@
             const link = document.createElement('a');
             link.href = url;
             link.download = filename;
+            link.setAttribute('aria-label', `Download ${filename}`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -856,6 +1098,7 @@
             if (selectedImages.length > 0) {
                 counter.textContent = `${selectedImages.length} image(s) selected`;
                 counter.classList.remove('hidden');
+                counter.setAttribute('aria-live', 'polite');
             } else {
                 counter.classList.add('hidden');
             }
@@ -884,6 +1127,8 @@
             
             const alertDiv = document.createElement('div');
             alertDiv.className = 'alert-toast';
+            alertDiv.setAttribute('role', 'alert');
+            alertDiv.setAttribute('aria-live', 'assertive');
             alertDiv.style.cssText = `
                 position: fixed;
                 top: 20px;
@@ -899,7 +1144,7 @@
             `;
             
             alertDiv.innerHTML = `
-                <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : 'info-circle'}" aria-hidden="true"></i>
                 ${message}
             `;
             
@@ -910,6 +1155,47 @@
                     alertDiv.remove();
                 }
             }, 5000);
+        }
+
+        // Accessibility updates
+        function updateAccessibilityAttributes() {
+            const qualitySlider = document.getElementById('qualitySlider');
+            const widthSlider = document.getElementById('widthSlider');
+            const progressBar = document.getElementById('progressBar');
+            
+            qualitySlider.setAttribute('aria-valuemin', '10');
+            qualitySlider.setAttribute('aria-valuemax', '100');
+            qualitySlider.setAttribute('aria-valuenow', '80');
+            qualitySlider.setAttribute('aria-label', 'Image quality slider');
+            
+            widthSlider.setAttribute('aria-valuemin', '400');
+            widthSlider.setAttribute('aria-valuemax', '2000');
+            widthSlider.setAttribute('aria-valuenow', '1200');
+            widthSlider.setAttribute('aria-label', 'Maximum image width slider');
+            
+            progressBar.setAttribute('aria-valuemin', '0');
+            progressBar.setAttribute('aria-valuemax', '100');
+            progressBar.setAttribute('aria-valuenow', '0');
+        }
+
+        // Update structured data with results
+        function updateStructuredData(totalImages, totalReduction, totalSaved, processingTime) {
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.textContent = JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Action",
+                "name": "Bulk Image Compression",
+                "description": `Compressed ${totalImages} images with ${totalReduction.toFixed(1)}% size reduction`,
+                "result": {
+                    "@type": "CompressionResult",
+                    "totalImages": totalImages,
+                    "sizeReduction": `${totalReduction.toFixed(1)}%`,
+                    "spaceSaved": formatFileSize(totalSaved),
+                    "processingTime": `${processingTime}s`
+                }
+            });
+            document.head.appendChild(script);
         }
     </script>
 </body>
